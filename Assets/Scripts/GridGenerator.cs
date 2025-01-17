@@ -19,7 +19,7 @@ public class GridGenerator : MonoBehaviour
 			for (int j = 0; j < Height; j++){
 				float x = starting_x + (i * (sqr_size.x + Margin));
 				float y = starting_y + (j * (sqr_size.y + Margin));
-				Instantiate(sqr, new Vector3(x, y, 0), Quaternion.identity);
+				Instantiate(sqr, new Vector3(x, y, 0), Quaternion.identity).GetComponent<Square>().Position = new Vector3(i,j,0);
 			}
 		}
 
