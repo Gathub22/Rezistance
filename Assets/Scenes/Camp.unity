@@ -150,7 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Height: 9
   Width: 9
-  Margin: 0.2
+  Margin: 0.15
 --- !u!4 &95212625
 Transform:
   m_ObjectHideFlags: 0
@@ -228,7 +228,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
