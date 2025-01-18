@@ -1,4 +1,5 @@
 using TMPro;
+using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements.Experimental;
@@ -6,7 +7,7 @@ using UnityEngine.UIElements.Experimental;
 public class Inventory : MonoBehaviour
 {
 
-	public int SelectedSoldier = -1;
+	public GameObject SelectedSoldier;
 
 	public int RemainingRifleman {
 		get {
@@ -59,14 +60,26 @@ public class Inventory : MonoBehaviour
 	void Start()
 	{
 		RemainingRifleman = PlayerPrefs.GetInt("rifles", 2);
-		RemainingShotgun = PlayerPrefs.GetInt("shotgun", 2);
+		RemainingShotgun = PlayerPrefs.GetInt("shotgun", 1);
 		RemainingSniper = PlayerPrefs.GetInt("sniper", 0);
 
 	}
 
 	public void SelectUnit(int type) // 1 = rifle, 2 = shotgun, 3 = sniper
 	{
-		SelectedSoldier = type;
+
+		switch(type) {
+			case 1:
+				SelectedSoldier = Resources.Load<GameObject>("Soldiers/RifleSoldier");
+				break;
+			case 2:
+				SelectedSoldier = Resources.Load<GameObject>("Soldiers/ShotgunSoldier");
+				break;
+			case 3:
+				SelectedSoldier = Resources.Load<GameObject>("Soldiers/SniperSoldier");
+				break;
+		}
+
 		GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
 		Square s = gm.GetBaseSquare();
 
@@ -79,7 +92,7 @@ public class Inventory : MonoBehaviour
 		}
 	}
 
-	public void UnselectUnit(int type) // 1 = rifle, 2 = shotgun, 3 = sniper
+	public void UnselectUnit(bool added) // 1 = rifle, 2 = shotgun, 3 = sniper
 	{
 		GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
 		Square s = gm.GetBaseSquare();
@@ -89,5 +102,20 @@ public class Inventory : MonoBehaviour
 				gm.Map[(int) i][(int) j].DisableOverlay();
 			}
 		}
+
+		if (added) {
+			switch(SelectedSoldier.name) {
+				case "RifleSoldier":
+					RemainingRifleman--;
+					break;
+				case "ShotgunSoldier":
+					RemainingShotgun--;
+					break;
+				case "SniperSoldier":
+					RemainingSniper--;
+					break;
+			}
+		}
+		SelectedSoldier = null;
 	}
 }

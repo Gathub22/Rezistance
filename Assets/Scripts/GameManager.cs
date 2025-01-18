@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 	public int Points;
 	public int Round;
 	public bool IsPlayerTurn = false;
+	public GameObject SelectedSoldier;
 
 	public void SetMap(Square[][] map)
 	{

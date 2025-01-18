@@ -100,7 +100,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e433073015743f48af50e74b89bb385, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 18
+  Health: 20
+  soldierType: 
+  isDead: 0
+  isSelected: 0
+  square: {fileID: 0}
   rangeAttack: 3
   damage: 8
-  isDead: 0
