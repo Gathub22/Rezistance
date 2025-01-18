@@ -9,7 +9,7 @@ public class Soldier : MonoBehaviour
 
     public Square square;
     private GameManager gameManager;
-		[SerializeField] private int rangeAttack;
+	[SerializeField] private int rangeAttack;
     [SerializeField] private int damage;
 
     void Start()
