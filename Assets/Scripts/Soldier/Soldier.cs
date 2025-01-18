@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class Soldier : MonoBehaviour
 {
-    [SerializeField] private int health;
+    public int Health;
+    public bool isDead;
+
     [SerializeField] private int rangeAttack;
     [SerializeField] private int damage;
     public string soldierType;
@@ -14,17 +16,18 @@ public class Soldier : MonoBehaviour
 
     void Start()
     {
+
     }
 
     void Update()
     {
-        
+
     }
 
     public void TakeDamage(int damage)
     {
-        health -= damage;
-        if (health <= 0)
+        Health -= damage;
+        if (Health <= 0)
         {
             isDead = true;
         }

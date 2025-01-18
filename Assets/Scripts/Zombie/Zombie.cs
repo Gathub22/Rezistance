@@ -2,18 +2,19 @@ using UnityEngine;
 
 public class Zombie : MonoBehaviour
 {
-    [SerializeField] private int health;
-    [SerializeField] private int rangeAttack;
-    [SerializeField] private int damage;
+    public int Health;
     public bool isDead;
+
+		[SerializeField] private int rangeAttack;
+    [SerializeField] private int damage;
 
     void Start()
     {
-        
+
     }
 
     void Update()
     {
-        
+
     }
 }
