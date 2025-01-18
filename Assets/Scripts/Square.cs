@@ -37,6 +37,8 @@ public class Square : MonoBehaviour
 	public Vector3 Position;
 	public TMP_Text HealthText;
 	public GameObject _child;
+	public Sprite normalSquareSprite;
+	public Sprite hightlightSquareSprite;
 
 	void Start()
 	{
@@ -44,26 +46,32 @@ public class Square : MonoBehaviour
 			HealthText.text = "";
 		}
 	}
-	private GameObject child;
+
+	public void EnableOverlay()
+	{
+		SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+		spriteRenderer.sprite = hightlightSquareSprite;
+	}
+
+	public void DisableOverlay()
+	{
+		SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+		spriteRenderer.sprite = normalSquareSprite;
+	}
 
 	private void OnMouseOver()
 	{
-		SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-		if (spriteRenderer != null && Child != null)
+		if (Child != null)
 		{
-			spriteRenderer.sprite = hightlightSquareSprite;
+			EnableOverlay();
 		}
 	}
 
 	private void OnMouseExit()
 	{
-		SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-		if (spriteRenderer != null && Child != null)
+		if (Child != null)
 		{
-			spriteRenderer.sprite = normalSquareSprite;
+			DisableOverlay();
 		}
 	}
-
-	public Sprite normalSquareSprite;
-	public Sprite hightlightSquareSprite;
 }
