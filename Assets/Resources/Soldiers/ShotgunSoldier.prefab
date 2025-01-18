@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5113062865745231204}
   - component: {fileID: 8996360964347742168}
-  - component: {fileID: 3514454939954959940}
+  - component: {fileID: 7882696445724678306}
   m_Layer: 0
   m_Name: ShotgunSoldier
   m_TagString: Untagged
@@ -88,7 +88,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3514454939954959940
+--- !u!114 &7882696445724678306
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,7 +97,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3934749764001797917}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e433073015743f48af50e74b89bb385, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e6503aa53e63f04b9e9c0cbc7403f43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 16
