@@ -14,7 +14,9 @@ public class GameManager : MonoBehaviour
 
 	public void EndTurn()
 	{
+		IsPlayerTurn = !IsPlayerTurn;
 
+		// TODO: Complete
 	}
 
 	public void LoseRound()
