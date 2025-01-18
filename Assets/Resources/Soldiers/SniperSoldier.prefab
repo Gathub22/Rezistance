@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4758964531039383040}
   - component: {fileID: 815024529786758999}
-  - component: {fileID: 5067555607838493981}
+  - component: {fileID: 6224607504261468255}
   m_Layer: 0
   m_Name: SniperSoldier
   m_TagString: Untagged
@@ -88,7 +88,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5067555607838493981
+--- !u!114 &6224607504261468255
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,7 +97,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3452273842787356811}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e433073015743f48af50e74b89bb385, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e6503aa53e63f04b9e9c0cbc7403f43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 10
