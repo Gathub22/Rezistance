@@ -21,13 +21,14 @@ public class GameManager : MonoBehaviour
 				Square square = Map[i][j];
 				if (square.Child != null)
 				{
-					if (square.Child.getComponent<Base>() != null)
+					if (square.Child.GetComponent<Base>() != null)
 					{
 						return square.Child;
 					}
 				}
 			}
 		}
+		return null;
 	}
 	
 	public void LoseRound()
