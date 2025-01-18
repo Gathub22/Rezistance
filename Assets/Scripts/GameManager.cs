@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 	public int Points;
 	public int Round;
 	public bool IsPlayerTurn = false;
+	public GameObject SelectedSoldier;
 
 	public void SetMap(Square[][] map)
 	{
@@ -31,6 +32,25 @@ public class GameManager : MonoBehaviour
 					if (square.Child.GetComponent<Base>() != null)
 					{
 						return square.Child;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	public Square GetBaseSquare()
+	{
+		for (int i = 0; i < Map.Length; i++)
+		{
+			for (int j = 0; j < Map[i].Length; j++)
+			{
+				Square square = Map[i][j];
+				if (square.Child != null)
+				{
+					if (square.Child.GetComponent<Base>() != null)
+					{
+						return square;
 					}
 				}
 			}

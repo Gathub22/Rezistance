@@ -37,6 +37,9 @@ public class Square : MonoBehaviour
 	public Vector3 Position;
 	public TMP_Text HealthText;
 	public GameObject _child;
+	public Sprite normalSquareSprite;
+	public Sprite hightlightSquareSprite;
+	public bool IsEnabled = false;
 
 	void Start()
 	{
@@ -44,26 +47,46 @@ public class Square : MonoBehaviour
 			HealthText.text = "";
 		}
 	}
-	private GameObject child;
+
+	public void EnableOverlay()
+	{
+		SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+		spriteRenderer.sprite = hightlightSquareSprite;
+		IsEnabled = true;
+	}
+
+	public void DisableOverlay()
+	{
+		SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+		spriteRenderer.sprite = normalSquareSprite;
+		IsEnabled = false;
+	}
 
 	private void OnMouseOver()
 	{
-		SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-		if (spriteRenderer != null && Child != null)
+		if (Child != null)
 		{
-			spriteRenderer.sprite = hightlightSquareSprite;
+			EnableOverlay();
 		}
 	}
 
 	private void OnMouseExit()
 	{
-		SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-		if (spriteRenderer != null && Child != null)
+		if (Child != null)
 		{
-			spriteRenderer.sprite = normalSquareSprite;
+			DisableOverlay();
 		}
 	}
 
-	public Sprite normalSquareSprite;
-	public Sprite hightlightSquareSprite;
+	private void OnMouseDown()
+	{
+		Inventory i = GameObject.Find("TroopsInventory").GetComponent<Inventory>();
+		GameObject s = i.SelectedSoldier;
+
+		if (s != null && IsEnabled && Child == null) {
+			Child = Instantiate(s);
+			i.UnselectUnit(true);
+		}
+
+	}
 }
