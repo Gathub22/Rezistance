@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using TMPro;
 using UnityEditor.Animations;
 using UnityEngine;
@@ -6,7 +7,7 @@ public class Square : MonoBehaviour
 {
 	public GameObject Child {
 		set {
-			this._child = value;
+			_child = value;
 			value.transform.position = transform.position;
 			value.GetComponent<Renderer>().sortingOrder = 1;
 
@@ -40,6 +41,7 @@ public class Square : MonoBehaviour
 	public Sprite normalSquareSprite;
 	public Sprite hightlightSquareSprite;
 	public bool IsEnabled = false;
+	public bool IsUsable = true;
 
 	void Start()
 	{
@@ -80,13 +82,46 @@ public class Square : MonoBehaviour
 
 	private void OnMouseDown()
 	{
-		Inventory i = GameObject.Find("TroopsInventory").GetComponent<Inventory>();
-		GameObject s = i.SelectedSoldier;
+		if (IsUsable){
 
-		if (s != null && IsEnabled && Child == null) {
-			Child = Instantiate(s);
-			i.UnselectUnit(true);
+			GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+			Inventory inv = GameObject.Find("TroopsInventory").GetComponent<Inventory>();
+			GameObject s = inv.SelectedSoldier;
+
+			if (s != null && IsEnabled && Child == null) {
+				Child = Instantiate(s);
+				inv.UnselectUnit(true);
+				return;
+			}
+
+			if (Child != null) {
+				gm.SelectedSoldier = Child;
+				Soldier sol =  Child.GetComponent<Soldier>();
+
+				for (int i = (int) Position.x - sol.rangeAttack; i < Position.x + sol.rangeAttack; i++) {
+					try {
+						if (gm.Map[i][(int) Position.y].Child.GetComponent<Zombie>() != null) {
+							gm.Map[i][(int) Position.y].EnableOverlay();
+						}
+					} catch{}
+
+					if (i - 1 == Position.x || i + 1 == Position.x) {
+						gm.Map[i][(int) Position.y].EnableOverlay();
+					}
+				}
+
+				for (int i = (int) Position.y - sol.rangeAttack; i < Position.y + sol.rangeAttack; i++) {
+					try {
+						if (gm.Map[(int) Position.x][i].Child.GetComponent<Zombie>() != null) {
+							gm.Map[(int) Position.x][i].EnableOverlay();
+						}
+					} catch{}
+
+					if (i - 1 == Position.y || i + 1 == Position.y) {
+						gm.Map[i][(int) Position.y].EnableOverlay();
+					}
+				}
+			}
 		}
-
 	}
 }
