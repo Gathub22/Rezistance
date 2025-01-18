@@ -8,6 +8,12 @@ public class Square : MonoBehaviour
 	public GameObject Child {
 		set {
 			_child = value;
+
+			if (value == null) {
+				HealthText.text = "";
+				return;
+			}
+
 			value.transform.position = transform.position;
 			value.GetComponent<Renderer>().sortingOrder = 1;
 
@@ -80,47 +86,32 @@ public class Square : MonoBehaviour
 		}
 	}
 
-	private void OnMouseDown()
+	public void DetectNeighbourSquares()
 	{
-		if (IsUsable){
+		GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+		Soldier sol =  Child.GetComponent<Soldier>();
 
-			GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-			Inventory inv = GameObject.Find("TroopsInventory").GetComponent<Inventory>();
-			GameObject s = inv.SelectedSoldier;
+		for (int i = (int) Position.x - sol.rangeAttack; i < Position.x + sol.rangeAttack; i++) {
+			try {
+				if (gm.Map[i][(int) Position.y].Child.GetComponent<Zombie>() != null) {
+					gm.Map[i][(int) Position.y].EnableOverlay();
+				}
+			} catch{}
 
-			if (s != null && IsEnabled && Child == null) {
-				Child = Instantiate(s);
-				inv.UnselectUnit(true);
-				return;
+			if (i - 1 == Position.x || i + 1 == Position.x) {
+				gm.Map[i][(int) Position.y].EnableOverlay();
 			}
+		}
 
-			if (Child != null) {
-				gm.SelectedSoldier = Child;
-				Soldier sol =  Child.GetComponent<Soldier>();
-
-				for (int i = (int) Position.x - sol.rangeAttack; i < Position.x + sol.rangeAttack; i++) {
-					try {
-						if (gm.Map[i][(int) Position.y].Child.GetComponent<Zombie>() != null) {
-							gm.Map[i][(int) Position.y].EnableOverlay();
-						}
-					} catch{}
-
-					if (i - 1 == Position.x || i + 1 == Position.x) {
-						gm.Map[i][(int) Position.y].EnableOverlay();
-					}
+		for (int i = (int) Position.y - sol.rangeAttack; i < Position.y + sol.rangeAttack; i++) {
+			try {
+				if (gm.Map[(int) Position.x][i].Child.GetComponent<Zombie>() != null) {
+					gm.Map[(int) Position.x][i].EnableOverlay();
 				}
+			} catch{}
 
-				for (int i = (int) Position.y - sol.rangeAttack; i < Position.y + sol.rangeAttack; i++) {
-					try {
-						if (gm.Map[(int) Position.x][i].Child.GetComponent<Zombie>() != null) {
-							gm.Map[(int) Position.x][i].EnableOverlay();
-						}
-					} catch{}
-
-					if (i - 1 == Position.y || i + 1 == Position.y) {
-						gm.Map[i][(int) Position.y].EnableOverlay();
-					}
-				}
+			if (i - 1 == Position.y || i + 1 == Position.y) {
+				gm.Map[(int) Position.x][i].EnableOverlay();
 			}
 		}
 	}
