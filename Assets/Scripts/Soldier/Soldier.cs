@@ -3,16 +3,14 @@ using UnityEngine;
 public class Soldier : MonoBehaviour
 {
     public int Health;
-    public bool isDead;
-
-    [SerializeField] private int rangeAttack;
-    [SerializeField] private int damage;
     public string soldierType;
     public bool isDead;
     public bool isSelected;
 
     public Square square;
     private GameManager gameManager;
+	[SerializeField] private int rangeAttack;
+    [SerializeField] private int damage;
 
     void Start()
     {
