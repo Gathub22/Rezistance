@@ -12,6 +12,11 @@ public class GameManager : MonoBehaviour
 		Map = map;
 	}
 
+	public void EndTurn()
+	{
+
+	}
+
 	public void LoseRound()
 	{
 		print("Lost round");
@@ -25,7 +30,30 @@ public class GameManager : MonoBehaviour
 		PlayerPrefs.SetInt("points", PlayerPrefs.GetInt("points", 0) + Points);
 		PlayerPrefs.SetInt("round", ++Round);
 
+		int[] remainingSoldiers = {0,0,0}; // rifleman, shotgunner, sniper
+		for (int i = 0; i < Map.Length; i++) {
+			for (int j = 0; j < Map[i].Length; j++) {
+				switch (Map[i][j].name) {
+					case "RifleSoldier":
+						remainingSoldiers[0]++;
+						break;
+
+					case "ShotgunSoldier":
+						remainingSoldiers[1]++;
+						break;
+
+					case "SniperSoldier":
+						remainingSoldiers[2]++;
+						break;
+				}
+			}
+		}
+
 		// TODO: Save inventory
+
+		PlayerPrefs.SetInt("rifles", remainingSoldiers[0]);
+		PlayerPrefs.SetInt("shotgun", remainingSoldiers[1]);
+		PlayerPrefs.SetInt("sniper", remainingSoldiers[2]);
 
 	}
 }
