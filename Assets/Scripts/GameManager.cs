@@ -12,6 +12,24 @@ public class GameManager : MonoBehaviour
 		Map = map;
 	}
 
+	public GameObject GetBase()
+	{
+		for (int i = 0; i < Map.Length; i++)
+		{
+			for (int j = 0; j < Map[i].Length; j++)
+			{
+				Square square = Map[i][j];
+				if (square.Child != null)
+				{
+					if (square.Child.getComponent<Base>() != null)
+					{
+						return square.Child;
+					}
+				}
+			}
+		}
+	}
+	
 	public void LoseRound()
 	{
 		print("Lost round");
