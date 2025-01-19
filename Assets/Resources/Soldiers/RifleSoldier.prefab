@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 20
-  soldierType: 
+  soldierType: Rifleman
   isDead: 0
   isSelected: 0
   square: {fileID: 0}

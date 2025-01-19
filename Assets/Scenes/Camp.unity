@@ -2031,7 +2031,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
 --- !u!114 &981471328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3225,7 +3225,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Zombies: 0
-  zombie_list: []
+  base_square: {fileID: 0}
+  zombie_square_list: []
+  gameManager: {fileID: 0}
+  deletingSquares: []
 --- !u!4 &1390824866
 Transform:
   m_ObjectHideFlags: 0
@@ -4410,3 +4413,4 @@ SceneRoots:
   - {fileID: 1983183724}
   - {fileID: 766426071}
   - {fileID: 1390824866}
+  - {fileID: 1037170688}
