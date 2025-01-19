@@ -230,6 +230,8 @@ MonoBehaviour:
   _child: {fileID: 0}
   normalSquareSprite: {fileID: 7482667652216324306, guid: 7d9e996775385f576bf7fef228ec9223, type: 3}
   hightlightSquareSprite: {fileID: 21300000, guid: a260a90774048d946b118b679910f096, type: 3}
+  IsEnabled: 0
+  IsUsable: 1
 --- !u!1 &6300117142875905800
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,8 +299,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 20
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e69be06ddc89a914a98b99e6fea70ddc, type: 2}
+  m_sharedMaterial: {fileID: 2374329569734669588, guid: e69be06ddc89a914a98b99e6fea70ddc, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
