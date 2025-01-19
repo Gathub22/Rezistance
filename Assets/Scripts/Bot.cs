@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -41,8 +42,9 @@ public class Bot : MonoBehaviour
 
 	public void Calculate()
 	{
-		for (int i = 0; i < zombie_square_list.Count; i++){
-			Square z_s = zombie_square_list[i];
+		List<Square> fixed_zombie_list = zombie_square_list.Select(item => item).ToList();
+		for (int i = 0; i < fixed_zombie_list.Count; i++){
+			Square z_s = fixed_zombie_list[i];
 			if (z_s.Child == null) {
 				// deletingSquares.Add(z_s);
 				zombie_square_list.Remove(z_s);
@@ -94,15 +96,11 @@ public class Bot : MonoBehaviour
 			int x, y;
 			do {
 				if (Random.value > 0.5f) {
-					x = gameManager.Map.Count()-1;
+					x = Random.Range(0, gameManager.Map.Count() - 1);
+					y = (int) Random.value;
 				} else {
-					x = 0;
-				}
-
-				if (Random.value > 0.5f) {
-					y = gameManager.Map[0].Count()-1;
-				} else {
-					y = 0;
+					x = (int) Random.value;
+					y = Random.Range(0, gameManager.Map[0].Count() - 1);
 				}
 			} while(gameManager.Map[x][y].Child != null);
 
