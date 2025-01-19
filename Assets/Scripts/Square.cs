@@ -115,4 +115,26 @@ public class Square : MonoBehaviour
 			}
 		}
 	}
+
+	public void ApplyDamage(int damage)
+	{
+		Soldier soldier = Child.GetComponent<Soldier>();
+		if (soldier != null) {
+			soldier.Health -= damage;
+			if (soldier.Health < 1) {
+				Destroy(Child);
+			}
+			return;
+		}
+
+		Base b = Child.GetComponent<Base>();
+		if (b != null) {
+			b.Health -= damage;
+			if (b.Health < 1) {
+				Destroy(Child);
+				GameObject.Find("GameManager").GetComponent<GameManager>().LoseRound();
+			}
+			return;
+		}
+	}
 }

@@ -607,7 +607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6629bbf62292f04219c328c5909c603d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SelectedSoldier: -1
+  SelectedSoldier: {fileID: 0}
   RifleText: {fileID: 992122073}
   ShotgunText: {fileID: 884993527}
   SniperText: {fileID: 1907012656}
@@ -947,6 +947,7 @@ MonoBehaviour:
   Points: 0
   Round: 0
   IsPlayerTurn: 1
+  SelectedSoldier: {fileID: 0}
 --- !u!4 &818911867
 Transform:
   m_ObjectHideFlags: 0
@@ -2266,8 +2267,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name:  
-  m_EditorClassIdentifier:  
+  m_Name: 
+  m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
@@ -2765,6 +2766,52 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!1 &1390824864
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1390824866}
+  - component: {fileID: 1390824865}
+  m_Layer: 0
+  m_Name: Bot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1390824865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390824864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8d0d724a1e06e4f2bba1782748b3e6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Zombies: 0
+  zombie_list: []
+--- !u!4 &1390824866
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390824864}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.0719161, y: -0.15177527, z: -0.048042454}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1554069032
 GameObject:
   m_ObjectHideFlags: 0
@@ -3519,8 +3566,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name:  
-  m_EditorClassIdentifier:  
+  m_Name: 
+  m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
@@ -3932,3 +3979,4 @@ SceneRoots:
   - {fileID: 818911867}
   - {fileID: 1983183724}
   - {fileID: 766426071}
+  - {fileID: 1390824866}
