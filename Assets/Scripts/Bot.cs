@@ -46,7 +46,7 @@ public class Bot : MonoBehaviour
 			if (z_s.Child == null) {
 				// deletingSquares.Add(z_s);
 				zombie_square_list.Remove(z_s);
-				break;
+				continue;
 			}
 			Vector3 distance = new Vector3(
 				(z_s.Position.x - base_square.Position.x),

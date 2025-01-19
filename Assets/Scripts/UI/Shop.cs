@@ -1,5 +1,7 @@
 using UnityEngine;
 using TMPro;
+using UnityEditor.SearchService;
+using UnityEngine.SceneManagement;
 
 public class Shop : MonoBehaviour
 {
@@ -18,6 +20,8 @@ public class Shop : MonoBehaviour
     public int shotgunCost = 20;
     public int sniperCost = 30;
 
+		[SerializeField] private int currentPoints;
+
 
     void Start()
     {
@@ -27,6 +31,10 @@ public class Shop : MonoBehaviour
         riflesText.text = rifleCost.ToString();
         shotgunText.text = shotgunCost.ToString();
         sniperText.text = sniperCost.ToString();
+
+				currentPoints = PlayerPrefs.GetInt("points", 0);
+				gameStats.pointsText.text = currentPoints.ToString();
+
     }
 
     public void buySoldier(int soldierType)
@@ -44,24 +52,24 @@ public class Shop : MonoBehaviour
                 cost = sniperCost;
                 break;
         }
-        if (gameManager.Points >= cost)
+        if (currentPoints >= cost)
         {
             switch (soldierType)
             {
                 case 0:
                     PlayerPrefs.SetInt("rifles", PlayerPrefs.GetInt("rifles", 0) + 1);
-                    gameManager.Points -= rifleCost;
+                    currentPoints -= rifleCost;
                     break;
                 case 1:
                     PlayerPrefs.SetInt("shotgun", PlayerPrefs.GetInt("shotgun", 0) + 1);
-                    gameManager.Points -= shotgunCost;
+                    currentPoints -= shotgunCost;
                     break;
                 case 2:
                     PlayerPrefs.SetInt("sniper", PlayerPrefs.GetInt("sniper", 0) + 1);
-                    gameManager.Points -= sniperCost;
+                    currentPoints -= sniperCost;
                     break;
             }
-            gameStats.UpdateStats();
+						gameStats.pointsText.text = currentPoints.ToString();
         }
         else
         {
@@ -71,11 +79,14 @@ public class Shop : MonoBehaviour
 
     public void openShop()
     {
-        this.gameObject.SetActive(false);
+        this.gameObject.SetActive(true);
+
     }
 
     public void closeShop()
     {
+				PlayerPrefs.SetInt("points", currentPoints);
+				SceneManager.LoadScene("Camp");
         this.gameObject.SetActive(false);
     }
 }
