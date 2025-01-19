@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
 	[SerializeField] private int _zombies;
 	[SerializeField] private int _points;
 	[SerializeField] private AudioSource soldierStepSound;
+	[SerializeField] private Shop shop;
 
 	void Start()
 	{
@@ -227,6 +228,7 @@ public class GameManager : MonoBehaviour
 	public void WinRound()
 	{
 		print("Round won!");
+		shop.openShop();
 		PlayerPrefs.SetInt("points", PlayerPrefs.GetInt("points", 0) + Points);
 		PlayerPrefs.SetInt("round", ++Round);
 

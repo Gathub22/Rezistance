@@ -51,7 +51,6 @@ public class ButtonActions : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     {
         if (iconImage != null && highlightedSprite != null)
         {
-            Debug.Log("Entering button, current texture: " + image.sprite.name);
             image.sprite = highlightedButton;
             iconImage.texture = highlightedSprite.texture;
         }
@@ -66,7 +65,6 @@ public class ButtonActions : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     {
         if (iconImage != null && normalSprite != null)
         {
-            Debug.Log("Exiting button, current texture: " + image.sprite.name);
             image.sprite = normalButton;
             iconImage.texture = normalSprite.texture;
         }
