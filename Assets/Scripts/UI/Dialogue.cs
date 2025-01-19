@@ -18,9 +18,6 @@ public class Dialogue : MonoBehaviour
 
     void Start()
     {
-        print(PlayerPrefs.GetInt("intro", 0));
-        print("Starting dialogue");
-
         if (PlayerPrefs.GetInt("intro", 0) == 0)
         {
             PlayerPrefs.SetInt("intro", 1);
