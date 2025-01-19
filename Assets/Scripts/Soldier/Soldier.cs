@@ -8,9 +8,10 @@ public class Soldier : MonoBehaviour
     public bool isSelected;
 
     public Square square;
+		public int rangeAttack;
+    public int damage;
+
     private GameManager gameManager;
-	[SerializeField] private int rangeAttack;
-    [SerializeField] private int damage;
 
     void Start()
     {
