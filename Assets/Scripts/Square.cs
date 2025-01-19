@@ -98,7 +98,7 @@ public class Square : MonoBehaviour
 		GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
 		Soldier sol =  Child.GetComponent<Soldier>();
 
-		for (int i = (int) Position.x - sol.rangeAttack; i < Position.x + sol.rangeAttack; i++) {
+		for (int i = (int) Position.x - sol.rangeAttack; i <= Position.x + sol.rangeAttack; i++) {
 			Square s = null;
 
 			try {
@@ -115,7 +115,7 @@ public class Square : MonoBehaviour
 			}
 		}
 
-		for (int i = (int) Position.y - sol.rangeAttack; i < Position.y + sol.rangeAttack; i++) {
+		for (int i = (int) Position.y - sol.rangeAttack; i <= Position.y + sol.rangeAttack; i++) {
 			Square s = null;
 
 			try {
