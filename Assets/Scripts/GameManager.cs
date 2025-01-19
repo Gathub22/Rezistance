@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviour
 	[SerializeField] private int _points;
 	[SerializeField] private AudioSource soldierStepSound;
 	[SerializeField] private Shop shop;
+	[SerializeField] private GameObject zombiePanel;
 
 	void Start()
 	{
@@ -44,6 +46,7 @@ public class GameManager : MonoBehaviour
 		GameStats gs = GameObject.Find("GameStats").GetComponent<GameStats>();
 		gs.roundText.text = Round.ToString();
 		gs.pointsText.text = 0.ToString();
+		zombiePanel.SetActive(false);
 	}
 
 	void Update()
@@ -215,15 +218,27 @@ public class GameManager : MonoBehaviour
 	}
 
 	public void LoseRound()
-	{
-		print("Lost round");
-		PlayerPrefs.DeleteKey("points");
-		PlayerPrefs.DeleteKey("round");
-		PlayerPrefs.DeleteKey("rifles");
-		PlayerPrefs.DeleteKey("shotgun");
-		PlayerPrefs.DeleteKey("sniper");
-		SceneManager.LoadScene("MainMenu");
-	}
+{
+    print("Lost round");
+    zombiePanel.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = $"Your brains have been eaten; you survived {Round - 1} nights.";
+    zombiePanel.SetActive(true);
+
+    StartCoroutine(WaitForDialogueAndLoadScene());
+}
+
+private IEnumerator WaitForDialogueAndLoadScene()
+{
+    yield return new WaitForSeconds(5f);
+
+    PlayerPrefs.DeleteKey("points");
+    PlayerPrefs.DeleteKey("round");
+    PlayerPrefs.DeleteKey("rifles");
+    PlayerPrefs.DeleteKey("shotgun");
+    PlayerPrefs.DeleteKey("sniper");
+
+    SceneManager.LoadScene("MainMenu");
+}
+
 
 	public void WinRound()
 	{
