@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -7,6 +8,14 @@ public class GameManager : MonoBehaviour
 	public int Round;
 	public bool IsPlayerTurn = false;
 	public GameObject SelectedSoldier;
+
+	void Start()
+	{
+		GameStats gs = GameObject.Find("GameStats").GetComponent<GameStats>();
+		gs.roundText.text = Round.ToString();
+		gs.pointsText.text = 0.ToString();
+
+	}
 
 	void Update()
 	{
@@ -18,6 +27,7 @@ public class GameManager : MonoBehaviour
 				Square s = hit.collider.GetComponent<Square>();
 				if (s != null) {
 					if (s.IsUsable){
+
 						// If it wants to select a unit
 						if (s.Child != null && SelectedSoldier == null) {
 							Soldier sol;
@@ -157,8 +167,12 @@ public class GameManager : MonoBehaviour
 	public void LoseRound()
 	{
 		print("Lost round");
-		PlayerPrefs.SetInt("points", 0);
-		PlayerPrefs.SetInt("round", 0);
+		PlayerPrefs.DeleteKey("points");
+		PlayerPrefs.DeleteKey("round");
+		PlayerPrefs.DeleteKey("rifles");
+		PlayerPrefs.DeleteKey("shotgun");
+		PlayerPrefs.DeleteKey("sniper");
+		SceneManager.LoadScene("Menu");
 	}
 
 	public void WinRound()
@@ -186,11 +200,12 @@ public class GameManager : MonoBehaviour
 			}
 		}
 
-		// TODO: Save inventory
+	// TODO: Save inventory
 
 		PlayerPrefs.SetInt("rifles", remainingSoldiers[0]);
 		PlayerPrefs.SetInt("shotgun", remainingSoldiers[1]);
 		PlayerPrefs.SetInt("sniper", remainingSoldiers[2]);
+		PlayerPrefs.SetInt("rounds", ++Round);
 
 	}
 }
