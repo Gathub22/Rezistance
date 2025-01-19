@@ -1,20 +1,46 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
 	public Square[][] Map;
-	public int Points;
 	public int Round;
+	public int Zombies {
+		get {
+			return _zombies;
+		}
+		set {
+			_zombies = value;
+			GameObject.Find("GameStats").GetComponent<GameStats>().zombiesText.text = value.ToString();
+
+			if (value == 0) {
+				WinRound();
+			}
+		}
+	}
+
+	public int Points {
+		get => _points;
+		set {
+			_points = value;
+			GameObject.Find("GameStats").GetComponent<GameStats>().pointsText.text = value.ToString();
+		}
+	}
+
 	public bool IsPlayerTurn = false;
 	public GameObject SelectedSoldier;
 
+	[SerializeField] private int _zombies;
+	[SerializeField] private int _points;
+
 	void Start()
 	{
+		Round = PlayerPrefs.GetInt("round", 1);
 		GameStats gs = GameObject.Find("GameStats").GetComponent<GameStats>();
 		gs.roundText.text = Round.ToString();
 		gs.pointsText.text = 0.ToString();
-
 	}
 
 	void Update()
@@ -40,6 +66,20 @@ public class GameManager : MonoBehaviour
 							// Spawning a unit
 							Inventory inv = GameObject.Find("TroopsInventory").GetComponent<Inventory>();
 							if (s.Child == null && s.IsEnabled && inv.SelectedSoldier != null) {
+
+								string s_type = inv.SelectedSoldier.GetComponent<Soldier>().soldierType;
+								switch(s_type) {
+									case "Rifleman":
+										inv.RemainingRifleman--;
+										break;
+									case "Shotgun":
+										inv.RemainingShotgun--;
+										break;
+									case "Sniper":
+										inv.RemainingSniper--;
+										break;
+								}
+
 								s.Child = Instantiate(inv.SelectedSoldier);
 								s.IsUsable = false;
 								inv.SelectedSoldier = null;
@@ -59,8 +99,7 @@ public class GameManager : MonoBehaviour
 							Zombie z;
 							if ((z = s.Child.GetComponent<Zombie>()) != null && s.IsEnabled) {
 								GetSquareFromUnit(SelectedSoldier).IsUsable = false;
-								z.Health -= SelectedSoldier.GetComponent<Soldier>().damage;
-								s.HealthText.text = z.Health.ToString();
+								s.ApplyDamage(SelectedSoldier.GetComponent<Soldier>().damage);
 								RestartPlayerMouseData();
 								return;
 							}
@@ -84,9 +123,13 @@ public class GameManager : MonoBehaviour
 
 	public void EndTurn()
 	{
+		ClearUsedSquares();
+		ClearEnabledSquares();
+
 		IsPlayerTurn = !IsPlayerTurn;
 
-		// TODO: Complete
+		if (!IsPlayerTurn)
+			GameObject.Find("Bot").GetComponent<Bot>().Calculate();
 	}
 
 	public GameObject GetBase()
@@ -172,7 +215,7 @@ public class GameManager : MonoBehaviour
 		PlayerPrefs.DeleteKey("rifles");
 		PlayerPrefs.DeleteKey("shotgun");
 		PlayerPrefs.DeleteKey("sniper");
-		SceneManager.LoadScene("Menu");
+		SceneManager.LoadScene("MainMenu");
 	}
 
 	public void WinRound()
@@ -184,28 +227,28 @@ public class GameManager : MonoBehaviour
 		int[] remainingSoldiers = {0,0,0}; // rifleman, shotgunner, sniper
 		for (int i = 0; i < Map.Length; i++) {
 			for (int j = 0; j < Map[i].Length; j++) {
-				switch (Map[i][j].name) {
-					case "RifleSoldier":
-						remainingSoldiers[0]++;
-						break;
+				GameObject c = Map[i][j].Child;
+				try {
+					switch (c.GetComponent<Soldier>().soldierType) {
+						case "Rifleman":
+							remainingSoldiers[0]++;
+							break;
 
-					case "ShotgunSoldier":
-						remainingSoldiers[1]++;
-						break;
+						case "Shotgun":
+							remainingSoldiers[1]++;
+							break;
 
-					case "SniperSoldier":
-						remainingSoldiers[2]++;
-						break;
-				}
+						case "Sniper":
+							remainingSoldiers[2]++;
+							break;
+					}
+				} catch{}
 			}
 		}
 
-	// TODO: Save inventory
-
-		PlayerPrefs.SetInt("rifles", remainingSoldiers[0]);
-		PlayerPrefs.SetInt("shotgun", remainingSoldiers[1]);
-		PlayerPrefs.SetInt("sniper", remainingSoldiers[2]);
-		PlayerPrefs.SetInt("rounds", ++Round);
-
+		Inventory inv = GameObject.Find("TroopsInventory").GetComponent<Inventory>();
+		PlayerPrefs.SetInt("rifles", remainingSoldiers[0] + inv.RemainingRifleman);
+		PlayerPrefs.SetInt("shotgun", remainingSoldiers[1] + inv.RemainingShotgun);
+		PlayerPrefs.SetInt("sniper", remainingSoldiers[2] + inv.RemainingSniper);
 	}
 }
