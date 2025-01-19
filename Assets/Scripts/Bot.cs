@@ -11,17 +11,15 @@ public class Bot : MonoBehaviour
 	[SerializeField] private Square base_square;
 	[SerializeField] private List<Square> zombie_square_list;
 	[SerializeField] private GameManager gameManager;
-	[SerializeField] private GameStats gameStats;
 	[SerializeField] private List<Square> deletingSquares;
 
 	void Start()
 	{
 		zombie_square_list = new List<Square>();
 		gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-		gameStats = GameObject.Find("GameStats").GetComponent<GameStats>();
 
 		Zombies = (int) (gameManager.Round * 1.5f) + 5;
-		gameStats.zombiesText.text = Zombies.ToString();
+		gameManager.Zombies = Zombies;
 
 		int half_x = gameManager.Map.Count()/2;
 		if(half_x < gameManager.Map.Count()/2) {
@@ -68,9 +66,6 @@ public class Bot : MonoBehaviour
 			}
 		}
 
-		for(int i = 0; i < deletingSquares.Count; i++) {
-			zombie_square_list.Remove(deletingSquares[i]);
-		}
 
 		// Zombie spawning
 		if (Zombies > 0) {
@@ -78,11 +73,9 @@ public class Bot : MonoBehaviour
 			if (quantity <= Zombies) {
 				SpawnZombies(quantity);
 				Zombies -= quantity;
-				gameStats.zombiesText.text = Zombies.ToString();
 			} else {
 				SpawnZombies(Zombies);
 				Zombies = 0;
-				gameStats.zombiesText.text = Zombies.ToString();
 			}
 		}
 

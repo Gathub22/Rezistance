@@ -118,11 +118,29 @@ public class Square : MonoBehaviour
 
 	public void ApplyDamage(int damage)
 	{
+		Zombie zombie = Child.GetComponent<Zombie>();
+		if (zombie != null) {
+			zombie.Health -= damage;
+			HealthText.text = zombie.Health.ToString();
+			if (zombie.Health < 1) {
+				Destroy(Child);
+				GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+				gm.Points += 3;
+				gm.Zombies--;
+				HealthText.text = "";
+			}
+
+			return;
+		}
+
+
 		Soldier soldier = Child.GetComponent<Soldier>();
 		if (soldier != null) {
 			soldier.Health -= damage;
+			HealthText.text = soldier.Health.ToString();
 			if (soldier.Health < 1) {
 				Destroy(Child);
+				HealthText.text = "";
 			}
 			return;
 		}
@@ -130,11 +148,14 @@ public class Square : MonoBehaviour
 		Base b = Child.GetComponent<Base>();
 		if (b != null) {
 			b.Health -= damage;
+			HealthText.text = b.Health.ToString();
 			if (b.Health < 1) {
 				Destroy(Child);
+				HealthText.text = "";
 				GameObject.Find("GameManager").GetComponent<GameManager>().LoseRound();
 			}
 			return;
 		}
+
 	}
 }
