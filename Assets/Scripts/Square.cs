@@ -77,7 +77,9 @@ public class Square : MonoBehaviour
 	{
 		if (Child != null)
 		{
-			EnableOverlay();
+			if (Child.GetComponent<Soldier>()){
+				EnableOverlay();
+			}
 		}
 	}
 
@@ -85,7 +87,9 @@ public class Square : MonoBehaviour
 	{
 		if (Child != null)
 		{
-			DisableOverlay();
+			if (Child.GetComponent<Soldier>()){
+				DisableOverlay();
+			}
 		}
 	}
 
@@ -95,26 +99,36 @@ public class Square : MonoBehaviour
 		Soldier sol =  Child.GetComponent<Soldier>();
 
 		for (int i = (int) Position.x - sol.rangeAttack; i < Position.x + sol.rangeAttack; i++) {
+			Square s = null;
+
 			try {
-				if (gm.Map[i][(int) Position.y].Child.GetComponent<Zombie>() != null) {
-					gm.Map[i][(int) Position.y].EnableOverlay();
+				s = gm.Map[i][(int) Position.y];
+				if (s.Child.GetComponent<Zombie>() != null) {
+					s.EnableOverlay();
 				}
 			} catch{}
 
-			if (i - 1 == Position.x || i + 1 == Position.x) {
-				gm.Map[i][(int) Position.y].EnableOverlay();
+			if ((i - 1 == Position.x || i + 1 == Position.x) && s != null) {
+				if (s.Child == null){
+					s.EnableOverlay();
+				}
 			}
 		}
 
 		for (int i = (int) Position.y - sol.rangeAttack; i < Position.y + sol.rangeAttack; i++) {
+			Square s = null;
+
 			try {
-				if (gm.Map[(int) Position.x][i].Child.GetComponent<Zombie>() != null) {
-					gm.Map[(int) Position.x][i].EnableOverlay();
+				s = gm.Map[(int) Position.x][i];
+				if (s.Child.GetComponent<Zombie>() != null) {
+					s.EnableOverlay();
 				}
 			} catch{}
 
-			if (i - 1 == Position.y || i + 1 == Position.y) {
-				gm.Map[(int) Position.x][i].EnableOverlay();
+			if ((i - 1 == Position.y || i + 1 == Position.y) && s != null) {
+				if (s.Child == null){
+					s.EnableOverlay();
+				}
 			}
 		}
 	}

@@ -102,9 +102,9 @@ public class Bot : MonoBehaviour
 			do {
 				if (Random.value > 0.5f) {
 					x = Random.Range(0, gameManager.Map.Count() - 1);
-					y = (int) Random.value;
+					y = Random.value > 0.5f ? 0 : gameManager.Map[0].Count()-1;
 				} else {
-					x = (int) Random.value;
+					x = Random.value > 0.5f ? 0 : gameManager.Map.Count()-1;
 					y = Random.Range(0, gameManager.Map[0].Count() - 1);
 				}
 			} while(gameManager.Map[x][y].Child != null);
