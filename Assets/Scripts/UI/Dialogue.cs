@@ -18,8 +18,12 @@ public class Dialogue : MonoBehaviour
 
     void Start()
     {
-        dialoguePanel.SetActive(true);
-        StartCoroutine(ShowDialogue());
+        if (PlayerPrefs.GetInt("intro", 0) == 0)
+        {
+            PlayerPrefs.SetInt("intro", 1);
+            dialoguePanel.SetActive(true);
+            StartCoroutine(ShowDialogue());
+        }
     }
 
     void Update()

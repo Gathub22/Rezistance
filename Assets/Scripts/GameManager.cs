@@ -29,11 +29,13 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
+
 	public bool IsPlayerTurn = false;
 	public GameObject SelectedSoldier;
 
 	[SerializeField] private int _zombies;
 	[SerializeField] private int _points;
+	[SerializeField] private AudioSource soldierStepSound;
 
 	void Start()
 	{
@@ -90,6 +92,7 @@ public class GameManager : MonoBehaviour
 							// Moving a unit
 							if (s.Child == null && s.IsEnabled) {
 								GetSquareFromUnit(SelectedSoldier).Child = null;
+								soldierStepSound.Play();
 								s.Child = SelectedSoldier;
 								s.IsUsable = false;
 								RestartPlayerMouseData();
@@ -100,6 +103,9 @@ public class GameManager : MonoBehaviour
 							if ((z = s.Child.GetComponent<Zombie>()) != null && s.IsEnabled) {
 								GetSquareFromUnit(SelectedSoldier).IsUsable = false;
 								s.ApplyDamage(SelectedSoldier.GetComponent<Soldier>().damage);
+								if(SelectedSoldier.GetComponent<AudioSource>() != null) {
+									SelectedSoldier.GetComponent<AudioSource>().Play();
+								}
 								RestartPlayerMouseData();
 								return;
 							}

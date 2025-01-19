@@ -49,6 +49,9 @@ public class Square : MonoBehaviour
 	public bool IsEnabled = false;
 	public bool IsUsable = true;
 
+	[Header("Audio")]
+	public AudioSource biteSound;
+
 	void Start()
 	{
 		if (_child == null) {
@@ -136,6 +139,7 @@ public class Square : MonoBehaviour
 
 		Soldier soldier = Child.GetComponent<Soldier>();
 		if (soldier != null) {
+			biteSound.Play();
 			soldier.Health -= damage;
 			HealthText.text = soldier.Health.ToString();
 			if (soldier.Health < 1) {
@@ -147,6 +151,7 @@ public class Square : MonoBehaviour
 
 		Base b = Child.GetComponent<Base>();
 		if (b != null) {
+			biteSound.Play();
 			b.Health -= damage;
 			HealthText.text = b.Health.ToString();
 			if (b.Health < 1) {

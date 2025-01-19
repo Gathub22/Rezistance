@@ -4,13 +4,24 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class ButtonActions : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class ButtonActions : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 {
     private TextMeshProUGUI textComponent;
+    [SerializeField] private RawImage iconImage;
+    [SerializeField] private Image image;
+
+    [Header("Sprites")]
+    [SerializeField] private Sprite normalSprite;
+    [SerializeField] private Sprite highlightedSprite;
+
+    [SerializeField] private Sprite normalButton;
+    [SerializeField] private Sprite highlightedButton;
 
     void Start()
     {
+        image = GetComponent<Image>();
         textComponent = GetComponentInChildren<TextMeshProUGUI>();
+        iconImage = GetComponentInChildren<RawImage>();
 
         if (textComponent == null)
         {
@@ -23,11 +34,43 @@ public class ButtonActions : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
         if (textComponent != null)
         {
             textComponent.color = Color.white;
+            image.sprite = normalButton;
+            iconImage.texture = normalSprite.texture;
         }
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if (textComponent != null)
+        {
+            textComponent.color = Color.black;
+        }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (iconImage != null && highlightedSprite != null)
+        {
+            Debug.Log("Entering button, current texture: " + image.sprite.name);
+            image.sprite = highlightedButton;
+            iconImage.texture = highlightedSprite.texture;
+        }
+
+        if (textComponent != null)
+        {
+            textComponent.color = Color.white;
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (iconImage != null && normalSprite != null)
+        {
+            Debug.Log("Exiting button, current texture: " + image.sprite.name);
+            image.sprite = normalButton;
+            iconImage.texture = normalSprite.texture;
+        }
+
         if (textComponent != null)
         {
             textComponent.color = Color.black;
