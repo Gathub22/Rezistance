@@ -1,6 +1,4 @@
-using NUnit.Framework;
 using TMPro;
-using UnityEditor.Animations;
 using UnityEngine;
 
 public class Square : MonoBehaviour
