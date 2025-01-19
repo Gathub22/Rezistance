@@ -12,6 +12,7 @@ public class Bot : MonoBehaviour
 	[SerializeField] private List<Square> zombie_square_list;
 	[SerializeField] private GameManager gameManager;
 	[SerializeField] private List<Square> deletingSquares;
+	[SerializeField] private List<Square> addingSquares;
 
 	void Start()
 	{
@@ -40,13 +41,16 @@ public class Bot : MonoBehaviour
 
 	public void Calculate()
 	{
+		deletingSquares = new List<Square>();
+		addingSquares = new List<Square>();
+
 		List<Square> fixed_zombie_list = zombie_square_list.Select(item => item).ToList();
+
 		for (int i = 0; i < fixed_zombie_list.Count; i++){
 			Square z_s = fixed_zombie_list[i];
 			if (z_s.Child == null) {
-				// deletingSquares.Add(z_s);
-				zombie_square_list.Remove(z_s);
-				break;
+				deletingSquares.Add(z_s);
+				continue;
 			}
 			Vector3 distance = new Vector3(
 				(z_s.Position.x - base_square.Position.x),
@@ -79,6 +83,14 @@ public class Bot : MonoBehaviour
 			}
 		}
 
+		for (int i = 0; i < deletingSquares.Count; i++) {
+			zombie_square_list.Remove(deletingSquares[i]);
+		}
+
+		for (int i = 0; i < addingSquares.Count; i++) {
+			zombie_square_list.Add(addingSquares[i]);
+		}
+
 		gameManager.EndTurn();
 	}
 
@@ -90,16 +102,16 @@ public class Bot : MonoBehaviour
 			do {
 				if (Random.value > 0.5f) {
 					x = Random.Range(0, gameManager.Map.Count() - 1);
-					y = (int) Random.value;
+					y = Random.value > 0.5f ? 0 : gameManager.Map[0].Count()-1;
 				} else {
-					x = (int) Random.value;
+					x = Random.value > 0.5f ? 0 : gameManager.Map.Count()-1;
 					y = Random.Range(0, gameManager.Map[0].Count() - 1);
 				}
 			} while(gameManager.Map[x][y].Child != null);
 
 			Square s = gameManager.Map[x][y];
 			s.Child = Instantiate(Resources.Load<GameObject>("Zombie/Zombie"));
-			zombie_square_list.Add(s);
+			addingSquares.Add(s);
 		}
 	}
 
