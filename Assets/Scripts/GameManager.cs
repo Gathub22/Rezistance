@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,10 +12,10 @@ public class GameManager : MonoBehaviour
 
 	void Start()
 	{
+		Round = PlayerPrefs.GetInt("round", 1);
 		GameStats gs = GameObject.Find("GameStats").GetComponent<GameStats>();
 		gs.roundText.text = Round.ToString();
 		gs.pointsText.text = 0.ToString();
-
 	}
 
 	void Update()
@@ -84,9 +85,13 @@ public class GameManager : MonoBehaviour
 
 	public void EndTurn()
 	{
+		ClearUsedSquares();
+		ClearEnabledSquares();
+
 		IsPlayerTurn = !IsPlayerTurn;
 
-		// TODO: Complete
+		if (!IsPlayerTurn)
+			GameObject.Find("Bot").GetComponent<Bot>().Calculate();
 	}
 
 	public GameObject GetBase()
@@ -172,7 +177,7 @@ public class GameManager : MonoBehaviour
 		PlayerPrefs.DeleteKey("rifles");
 		PlayerPrefs.DeleteKey("shotgun");
 		PlayerPrefs.DeleteKey("sniper");
-		SceneManager.LoadScene("Menu");
+		SceneManager.LoadScene("MainMenu");
 	}
 
 	public void WinRound()

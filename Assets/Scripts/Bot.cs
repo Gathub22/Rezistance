@@ -10,12 +10,33 @@ public class Bot : MonoBehaviour
 	[SerializeField] private Square base_square;
 	[SerializeField] private List<Square> zombie_square_list;
 	[SerializeField] private GameManager gameManager;
+	[SerializeField] private GameStats gameStats;
 	[SerializeField] private List<Square> deletingSquares;
 
 	void Start()
 	{
 		zombie_square_list = new List<Square>();
 		gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+		gameStats = GameObject.Find("GameStats").GetComponent<GameStats>();
+
+		Zombies = (int) (gameManager.Round * 1.5f) + 5;
+		gameStats.zombiesText.text = Zombies.ToString();
+
+		int half_x = gameManager.Map.Count()/2;
+		if(half_x < gameManager.Map.Count()/2) {
+			half_x++;
+		} else if(half_x > gameManager.Map.Count()/2){
+			half_x--;
+		}
+
+		int half_y = gameManager.Map[0].Count()/2;
+		if(half_y < gameManager.Map[0].Count()/2) {
+			half_y++;
+		} else if(half_y > gameManager.Map[0].Count()/2){
+			half_y--;
+		}
+
+		base_square = gameManager.Map[half_x][half_y];
 	}
 
 	public void Calculate()
@@ -23,7 +44,8 @@ public class Bot : MonoBehaviour
 		for (int i = 0; i < zombie_square_list.Count; i++){
 			Square z_s = zombie_square_list[i];
 			if (z_s.Child == null) {
-				deletingSquares.Add(z_s);
+				// deletingSquares.Add(z_s);
+				zombie_square_list.Remove(z_s);
 				break;
 			}
 			Vector3 distance = new Vector3(
@@ -32,13 +54,13 @@ public class Bot : MonoBehaviour
 			);
 
 			if (distance.y > 1) {
-				ProcessDistance(1, z_s, false);
-			} else if (distance.y < -1) {
 				ProcessDistance(-1, z_s, false);
+			} else if (distance.y < -1) {
+				ProcessDistance(1, z_s, false);
 			} else if (distance.x > 1) {
-				ProcessDistance(1, z_s, true);
-			} else if (distance.x < -1) {
 				ProcessDistance(-1, z_s, true);
+			} else if (distance.x < -1) {
+				ProcessDistance(1, z_s, true);
 			} else {
 				base_square.ApplyDamage(z_s.Child.GetComponent<Zombie>().damage);
 			}
@@ -52,28 +74,41 @@ public class Bot : MonoBehaviour
 		if (Zombies > 0) {
 			int quantity = (int) (gameManager.Round * 1.5);
 			if (quantity <= Zombies) {
-				for (int i = 0; i < quantity; i++) {
-
-					int x, y;
-					do {
-						if (Random.value > 0.5f) {
-							x = gameManager.Map.Count()-1;
-						} else {
-							x = 0;
-						}
-
-						if (Random.value > 0.5f) {
-							y = gameManager.Map[0].Count()-1;
-						} else {
-							y = 0;
-						}
-					} while(gameManager.Map[x][y].Child != null);
-
-					Square s = gameManager.Map[x][y];
-					s.Child = Instantiate(Resources.Load<GameObject>("Zombie/Zombie"));
-					zombie_square_list.Add(s);
-				}
+				SpawnZombies(quantity);
+				Zombies -= quantity;
+				gameStats.zombiesText.text = Zombies.ToString();
+			} else {
+				SpawnZombies(Zombies);
+				Zombies = 0;
+				gameStats.zombiesText.text = Zombies.ToString();
 			}
+		}
+
+		gameManager.EndTurn();
+	}
+
+	private void SpawnZombies(int quantity)
+	{
+		for (int i = 0; i < quantity; i++) {
+
+			int x, y;
+			do {
+				if (Random.value > 0.5f) {
+					x = gameManager.Map.Count()-1;
+				} else {
+					x = 0;
+				}
+
+				if (Random.value > 0.5f) {
+					y = gameManager.Map[0].Count()-1;
+				} else {
+					y = 0;
+				}
+			} while(gameManager.Map[x][y].Child != null);
+
+			Square s = gameManager.Map[x][y];
+			s.Child = Instantiate(Resources.Load<GameObject>("Zombie/Zombie"));
+			zombie_square_list.Add(s);
 		}
 	}
 
@@ -90,8 +125,8 @@ public class Bot : MonoBehaviour
 			s.Child = z_s.Child;
 			z_s.Child = null;
 			zombie_square_list.Add(s);
-			deletingSquares.Add(z_s);
-		} else if ((sol = s.Child.GetComponent<Soldier>()) == null) {
+			zombie_square_list.Remove(z_s);
+		} else if ((sol = s.Child.GetComponent<Soldier>()) != null) {
 			s.ApplyDamage(sol.damage);
 		}
 	}
