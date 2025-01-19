@@ -35,7 +35,7 @@ public class ButtonActions : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
         {
             textComponent.color = Color.white;
             image.sprite = normalButton;
-            iconImage.texture = normalSprite.texture;
+            if(iconImage != null) iconImage.texture = normalSprite.texture;
         }
     }
 
