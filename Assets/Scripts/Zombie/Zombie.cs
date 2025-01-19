@@ -5,16 +5,6 @@ public class Zombie : MonoBehaviour
     public int Health;
     public bool isDead;
 		public int rangeAttack;
+    public int damage;
 
-    [SerializeField] private int damage;
-
-    void Start()
-    {
-
-    }
-
-    void Update()
-    {
-
-    }
 }

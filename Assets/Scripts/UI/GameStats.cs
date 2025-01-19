@@ -4,7 +4,7 @@ using TMPro;
 public class GameStats : MonoBehaviour
 {
     private GameManager gameManager;
-    
+
     public TextMeshProUGUI pointsText;
     public TextMeshProUGUI roundText;
     public TextMeshProUGUI zombiesText;
@@ -12,7 +12,7 @@ public class GameStats : MonoBehaviour
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        
+
         pointsText.text = gameManager.Points.ToString();
         roundText.text = gameManager.Round.ToString();
         // zombiesText.text = gameManager.Zombies.ToString();
@@ -27,6 +27,6 @@ public class GameStats : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 }
